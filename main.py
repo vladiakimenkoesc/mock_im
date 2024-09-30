@@ -71,7 +71,7 @@ def send_v1():
         "grouppedId": None,
     }
     existing_ids.add(new_id)
-    messages_bank.add(new_message)
+    messages_bank.append(new_message)
     save_messages_to_file(messages_bank, FILE_PATH)
 
     return jsonify({"type": "success", "messageId": new_message["id"]})
