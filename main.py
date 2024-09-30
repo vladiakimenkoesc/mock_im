@@ -93,7 +93,7 @@ def add():
         "updateId": None,
         "userId": from_id,
         "created": datetime.utcnow().isoformat(),
-        "direction": Direction.OUTBOUND,
+        "direction": Direction.INBOUND,
         "clientId": str(uuid4()),
         "entities": [],
         "replyToMessageId": reply_to,
