@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 app = Flask(__name__)
 
+RESPONSE_FILE = "replies.txt"
 ITEMS_PER_RESPONSE = int(os.environ["ITEMS_PER_RESPONSE"])
 FILE_PATH = os.environ["FEED_FILE_PATH"]
 messages_bank = load_messages_from_file(FILE_PATH)
@@ -26,8 +27,8 @@ class Direction(str, Enum):
 
 @app.route("/listDifferenceV1", methods=["PUT"])
 def list_difference_v1():
-    logger.info(f"Incoming {request.method} request {request.url}")
-    logger.info(f"{request.get_json()}")
+    logger.debug(f"Incoming {request.method} request {request.url}")
+    logger.debug(f"{request.get_json()}")
     global messages_bank
     messages_bank = load_messages_from_file(FILE_PATH)
     from_id = request.get_json().get("fromId")
@@ -41,19 +42,22 @@ def list_difference_v1():
 
 @app.route("/typingV1", methods=["PUT"])
 def typing_v1():
-    logger.info(f"Incoming {request.method} request {request.url}")
-    logger.info(f"{request.get_json()}")
+    logger.debug(f"Incoming {request.method} request {request.url}")
+    logger.debug(f"{request.get_json()}")
     return jsonify({"type": "success"})
 
 
 @app.route("/sendV1", methods=["PUT"])
 def send_v1():
-    logger.info(f"Incoming {request.method} request {request.url}")
+    logger.debug(f"Incoming {request.method} request {request.url}")
     payload = request.get_json()
-    logger.info(f"{payload}")
+    logger.debug(f"{payload}")
 
     message_content = payload.get("message")
     client_id = payload.get("clientId")
+
+    with open(RESPONSE_FILE, "at") as f:
+        f.write(f"Response to {client_id=}: {message_content}\n")
 
     new_id = generate_id(existing_ids)
     new_message = {
