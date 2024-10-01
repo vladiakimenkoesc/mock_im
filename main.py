@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 app = Flask(__name__)
 
-RESPONSE_FILE = "replies.txt"
+RESPONSE_FILE = "replies/replies.txt"
 ITEMS_PER_RESPONSE = int(os.environ["ITEMS_PER_RESPONSE"])
 FILE_PATH = os.environ["FEED_FILE_PATH"]
 messages_bank = load_messages_from_file(FILE_PATH)
