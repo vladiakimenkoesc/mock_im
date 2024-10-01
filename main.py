@@ -32,9 +32,9 @@ def list_difference_v1():
     messages_bank = load_messages_from_file(FILE_PATH)
     from_id = request.get_json().get("fromId")
     start_index = next(
-        (index for index, msg in enumerate(messages_bank) if msg["id"] == from_id), -1
+        (index for index, msg in enumerate(messages_bank) if msg["updateId"] == from_id or msg["id"] == from_id), -1
     )
-    feed = messages_bank[start_index + 1 : start_index + 1 + ITEMS_PER_RESPONSE]
+    feed = messages_bank[start_index + 1: start_index + 1 + ITEMS_PER_RESPONSE]
     has_more = (start_index + 1 + ITEMS_PER_RESPONSE) < len(messages_bank)
     return jsonify({"hasMore": has_more, "feed": feed})
 
