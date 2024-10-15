@@ -31,9 +31,9 @@ def list_difference_v1():
     logger.debug(f"{request.get_json()}")
     global messages_bank
     messages_bank = load_messages_from_file(FILE_PATH)
-    from_id = request.get_json().get("fromId")
+    from_update_id = request.get_json().get("fromUpdateId")
     start_index = next(
-        (index for index, msg in enumerate(messages_bank) if msg["updateId"] == from_id), -1
+        (index for index, msg in enumerate(messages_bank) if msg["updateId"] == from_update_id), -1
     )
     feed = messages_bank[start_index + 1: start_index + 1 + ITEMS_PER_RESPONSE]
     has_more = (start_index + 1 + ITEMS_PER_RESPONSE) < len(messages_bank)
