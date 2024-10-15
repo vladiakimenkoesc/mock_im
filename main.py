@@ -54,10 +54,11 @@ def send_v1():
     logger.debug(f"{payload}")
 
     message_content = payload.get("message")
+    to_peer_id = payload.get("toPeerId")
     client_id = payload.get("clientId")
 
     with open(RESPONSE_FILE, "at") as f:
-        f.write(f"Response to {client_id=}: {message_content}\n")
+        f.write(f"Response to user {to_peer_id}: {message_content}\n")
 
     new_id = generate_id(existing_ids)
     new_message = {
