@@ -33,18 +33,18 @@ def list_difference_v1():
     messages_bank = load_messages_from_file(FILE_PATH)
     from_id = request.get_json().get("fromId")
     start_index = next(
-        (index for index, msg in enumerate(messages_bank) if msg["updateId"] == from_id or msg["id"] == from_id), -1
+        (index for index, msg in enumerate(messages_bank) if msg["updateId"] == from_id), -1
     )
     feed = messages_bank[start_index + 1: start_index + 1 + ITEMS_PER_RESPONSE]
     has_more = (start_index + 1 + ITEMS_PER_RESPONSE) < len(messages_bank)
     return jsonify({"hasMore": has_more, "feed": feed})
 
 
-@app.route("/typingV1", methods=["PUT"])
-def typing_v1():
-    logger.debug(f"Incoming {request.method} request {request.url}")
-    logger.debug(f"{request.get_json()}")
-    return jsonify({"type": "success"})
+# @app.route("/typingV1", methods=["PUT"])
+# def typing_v1():
+#     logger.debug(f"Incoming {request.method} request {request.url}")
+#     logger.debug(f"{request.get_json()}")
+#     return jsonify({"type": "success"})
 
 
 @app.route("/sendV1", methods=["PUT"])
@@ -62,7 +62,7 @@ def send_v1():
     new_id = generate_id(existing_ids)
     new_message = {
         "id": new_id,
-        "updateId": None,
+        "updateId": new_id,
         "userId": assistant_id,
         "created": datetime.utcnow().isoformat(),
         "direction": Direction.OUTBOUND,
@@ -94,7 +94,7 @@ def add():
     message_id = generate_id(existing_ids)
     new_message = {
         "id": message_id,
-        "updateId": None,
+        "updateId": message_id,
         "userId": from_id,
         "created": datetime.utcnow().isoformat(),
         "direction": Direction.INBOUND,
