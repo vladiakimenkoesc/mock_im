@@ -57,9 +57,6 @@ def send_v1():
     to_peer_id = payload.get("toPeerId")
     client_id = payload.get("clientId")
 
-    with open(RESPONSE_FILE, "at") as f:
-        f.write(f"Response to user {to_peer_id}: {message_content}\n")
-
     new_id = generate_id(existing_ids)
     new_message = {
         "id": new_id,
@@ -78,6 +75,11 @@ def send_v1():
     existing_ids.add(new_id)
     messages_bank.append(new_message)
     save_messages_to_file(messages_bank, FILE_PATH)
+
+    with open(RESPONSE_FILE, "at") as f:
+        f.write(f"Reply to user: {to_peer_id}\n"
+                f"Message ID: {new_message['updateId']}\n"
+                f"Content: {message_content}\n\n")
 
     return jsonify({"type": "success", "messageId": new_message["id"]})
 
