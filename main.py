@@ -36,7 +36,7 @@ def list_difference_v1():
         (index for index, msg in enumerate(messages_bank) if msg["updateId"] == from_update_id), -1
     )
     feed = messages_bank[start_index + 1: start_index + 1 + ITEMS_PER_RESPONSE]
-    has_more = (start_index + 1 + ITEMS_PER_RESPONSE) < len(messages_bank)
+    has_more = (start_index + 1 + ITEMS_PER_RESPONSE) <= len(messages_bank)
     return jsonify({"hasMore": has_more, "feed": feed})
 
 
